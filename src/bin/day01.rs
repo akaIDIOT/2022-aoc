@@ -13,24 +13,24 @@ fn main() {
                 if calories.is_empty() {
                     elves.push(sum);
                     sum = 0;
-                }
-                else {
+                } else {
                     sum += calories.parse::<i32>().unwrap();
                 }
             }
         }
 
         elves.sort();
+        elves.reverse();
 
         println!("Elf named Max carries {} calories.",
-                 elves.last().unwrap());
+                 elves.first().unwrap());
         println!("Elves Maxwell, Maxxie and Max together carry {} calories.",
-                 elves.iter().rev().take(3).sum::<i32>());
+                 elves[..3].iter().sum::<i32>());
     }
 }
 
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
+    where P: AsRef<Path>, {
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
