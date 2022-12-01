@@ -5,15 +5,13 @@ use std::path::Path;
 fn main() {
     if let Ok(lines) = read_lines("input/day01") {
         let mut sum = 0;
-        let mut max = 0;
+        let mut elves: Vec<i32> = vec![];
 
         // Consumes the iterator, returns an (Optional) String
         for line in lines {
             if let Ok(calories) = line {
                 if calories.is_empty() {
-                    if sum > max {
-                        max = sum;
-                    }
+                    elves.push(sum);
                     sum = 0;
                 }
                 else {
@@ -22,7 +20,12 @@ fn main() {
             }
         }
 
-        println!("Elf named Max carries {} calories.", max);
+        elves.sort();
+
+        println!("Elf named Max carries {} calories.",
+                 elves.last().unwrap());
+        println!("Elves Maxwell, Maxxie and Max together carry {} calories.",
+                 elves.iter().rev().take(3).sum::<i32>());
     }
 }
 
