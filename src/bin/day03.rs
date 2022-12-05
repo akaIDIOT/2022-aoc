@@ -23,6 +23,7 @@ fn main() {
 
                 group.push(HashSet::<_>::from_iter(rucksack.chars()));
                 if group.len() == 3 {
+                    // yeah, i dno, i'm not asking the questions here
                     let intersect = &(&group[0] & &group[1]) & &group[2];
                     badged_priorities += intersect.iter().map(|c| {
                         ITEMS.find(*c).unwrap() as i32
