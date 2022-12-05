@@ -7,20 +7,33 @@ const ITEMS: &str = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 fn main() {
     if let Ok(lines) = read_lines("input/day03") {
-        let mut sum = 0;
+        let mut priorities = 0;
+        let mut group: Vec<HashSet<char>> = vec![];
+        let mut badged_priorities = 0;
+
         for line in lines {
             if let Ok(rucksack) = line {
                 let compartments = rucksack.split_at(rucksack.len() / 2);
                 let front = HashSet::<_>::from_iter(compartments.0.chars());
                 let back = HashSet::<_>::from_iter(compartments.1.chars());
 
-                sum += front.intersection(&back).map(|c| {
+                priorities += front.intersection(&back).map(|c| {
                     ITEMS.find(*c).unwrap() as i32
                 }).sum::<i32>();
+
+                group.push(HashSet::<_>::from_iter(rucksack.chars()));
+                if group.len() == 3 {
+                    let intersect = &(&group[0] & &group[1]) & &group[2];
+                    badged_priorities += intersect.iter().map(|c| {
+                        ITEMS.find(*c).unwrap() as i32
+                    }).sum::<i32>();
+                    group = vec![];
+                }
             }
         }
 
-        println!("Sum of priorities: {}", sum);
+        println!("Sum of priorities: {}", priorities);
+        println!("Sum of badged priorities: {}", badged_priorities);
     }
 }
 
